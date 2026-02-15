@@ -9,6 +9,7 @@ import (
 func main() {
 	fmt.Println("== string-tools ==")
 	fmt.Println("hello, go 'git- traning! ->", CleanString("hello, go 'git- traning! "))
+	fmt.Println("учение       свет   !", " -> ", RemoveSpaces("учение       свет   !"))
 }
 
 func CleanString(s string) string {
@@ -23,4 +24,15 @@ func CleanString(s string) string {
 		}
 	}
 	return b.String()
+}
+
+func RemoveSpaces(s string) string {
+
+	words := strings.Fields(s)
+
+	if len(words) == 0 {
+		return ""
+	}
+	return strings.Join(words, " ")
+
 }

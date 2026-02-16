@@ -12,6 +12,11 @@ func main() {
 	fmt.Println("учение       свет   !", " -> ", RemoveSpaces("учение       свет   !"))
 
 	fmt.Println("'radar' is palindrome -> ", IsPalindrome("radar"))
+
+	fmt.Println(NormalizePhone("+7 (999) 123-45-67")) // +79991234567
+	fmt.Println(NormalizePhone("8 999 123 45 67"))    // +79991234567
+	fmt.Println(NormalizePhone("9991234567"))         // +79991234567
+	fmt.Println(NormalizePhone("abc123"))             // abc123 (не изменили)
 }
 
 func CleanString(s string) string {
@@ -58,4 +63,28 @@ func IsPalindrome(s string) bool {
 		right--
 	}
 	return true
+}
+
+func NormalizePhone(s string) string {
+	var b strings.Builder
+	b.Grow(len(s))
+	for _, r := range s {
+		if r >= '0' && r <= '9' {
+			b.WriteRune(r)
+		}
+	}
+	digits := b.String()
+	n := len(digits)
+
+	switch {
+	case n == 11 && digits[0] == '8':
+		return "+7" + digits[1:]
+	case n == 11 && digits[0] == '7':
+		return "+" + digits
+	case n == 10:
+		return "+7" + digits
+	default:
+		return s
+	}
+
 }

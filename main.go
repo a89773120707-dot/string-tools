@@ -17,6 +17,11 @@ func main() {
 	fmt.Println(NormalizePhone("8 999 123 45 67"))    // +79991234567
 	fmt.Println(NormalizePhone("9991234567"))         // +79991234567
 	fmt.Println(NormalizePhone("abc123"))             // abc123 (не изменили)
+
+	fmt.Println(TruncateWithEllipsis("Hello world this is test", 10)) // Hello wor...
+	fmt.Println(TruncateWithEllipsis("short", 10))                    // short
+	fmt.Println(TruncateWithEllipsis("very long string", 3))          // ...
+	fmt.Println(TruncateWithEllipsis("", 5))                          // ""
 }
 
 func CleanString(s string) string {
@@ -87,4 +92,18 @@ func NormalizePhone(s string) string {
 		return s
 	}
 
+}
+
+func TruncateWithEllipsis(s string, maxlen int) string {
+	runes := []rune(s)
+
+	if len(runes) <= maxlen {
+		return string(runes)
+	}
+
+	if maxlen <= 3 {
+		return "..."
+	}
+
+	return string(runes[:maxlen-3]) + "..."
 }

@@ -22,6 +22,10 @@ func main() {
 	fmt.Println(TruncateWithEllipsis("short", 10))                    // short
 	fmt.Println(TruncateWithEllipsis("very long string", 3))          // ...
 	fmt.Println(TruncateWithEllipsis("", 5))                          // ""
+
+	fmt.Println("alex@example.com ->", maskemail("alex@example.com"))
+	fmt.Println("a@example.com ->", maskemail("a@example.com"))
+	fmt.Println("al@example.com ->", maskemail("al@example.com"))
 }
 
 func CleanString(s string) string {
@@ -106,4 +110,25 @@ func TruncateWithEllipsis(s string, maxlen int) string {
 	}
 
 	return string(runes[:maxlen-3]) + "..."
+}
+
+func maskemail(s string) string {
+	atIndex := strings.Index(s, "@")
+
+	username := s[:atIndex]
+	domain := s[atIndex:]
+
+	runes := []rune(username)
+	n := len(runes)
+
+	switch {
+	case n == 1:
+		return "*" + domain
+	case n == 2:
+		return string(runes[0]) + "*" + domain
+	default:
+		stars := strings.Repeat("*", n-2)
+		return string(runes[0]) + stars + string(runes[n-1]) + domain
+	}
+
 }
